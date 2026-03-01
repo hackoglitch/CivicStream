@@ -15,6 +15,7 @@ const IssueFullDetailsScreen = ({ variant = 'mobile' }) => {
     // Global State
     const issues = useAppStore(state => state.issues);
     const selectedIssueId = useAppStore(state => state.selectedIssueId);
+    const currentUser = useAppStore(state => state.currentUser);
     const user = useAppStore(state => state.user);
     const navigate = useAppStore(state => state.navigate);
     const addComment = useAppStore(state => state.addComment);
@@ -34,7 +35,15 @@ const IssueFullDetailsScreen = ({ variant = 'mobile' }) => {
             <div className="empty-state">
                 <span className="material-symbols-outlined" style={{ fontSize: 64, color: '#e2e8f0' }}>error</span>
                 <h3>Issue not found</h3>
-                <button onClick={() => navigate('home')}>Go Back</button>
+                <button onClick={() => {
+                    if (currentUser?.role === 'official') {
+                        navigate('official-dashboard');
+                    } else if (currentUser?.role === 'worker') {
+                        navigate('worker-dashboard');
+                    } else {
+                        navigate('home');
+                    }
+                }}>Go Back</button>
             </div>
         );
     }
@@ -71,7 +80,15 @@ const IssueFullDetailsScreen = ({ variant = 'mobile' }) => {
             {/* 1. Header */}
             <header className="details-header">
                 <div className="header-left">
-                    <button className="back-btn" onClick={() => navigate('home')}>
+                    <button className="back-btn" onClick={() => {
+                        if (currentUser?.role === 'official') {
+                            navigate('official-dashboard');
+                        } else if (currentUser?.role === 'worker') {
+                            navigate('worker-dashboard');
+                        } else {
+                            navigate('home');
+                        }
+                    }}>
                         <span className="material-symbols-outlined">arrow_back</span>
                     </button>
                     <h1 className="header-title">Issue Details</h1>

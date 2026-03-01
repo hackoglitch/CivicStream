@@ -178,51 +178,18 @@ const IssueDetailScreen = ({ variant = 'mobile', isTabPage = false }) => {
                         <h2 className="sheet-title">{selectedIssue.title}</h2>
                         <div className="sheet-meta">Reported {selectedIssue.date} • 0.2 miles away</div>
 
-                        <div className="supporting-section">
-                            <div className="avatars-group">
-                                <div className="avatar-small" style={{ backgroundImage: 'url(https://i.pravatar.cc/100?u=12)' }} />
-                                <div className="avatar-small" style={{ backgroundImage: 'url(https://i.pravatar.cc/100?u=24)' }} />
-                                <div className="avatar-more">+5</div>
-                            </div>
-                            <span className="supporting-text">Supporting this report</span>
-                        </div>
-
                         {!isMarkerClick && (
-                            <>
-                                {/* Interaction Options (Above Options) */}
-                                <div className="sheet-interaction-row">
-                                    <div className="interaction-left">
-                                        <button
-                                            className={`interact-btn ${selectedIssue.userVote === 'up' ? 'active-up' : ''}`}
-                                            onClick={() => useAppStore.getState().voteIssue(selectedIssue.id, 'up')}
-                                        >
-                                            <span className="material-symbols-outlined" style={{ fontVariationSettings: selectedIssue.userVote === 'up' ? "'FILL' 1" : "''" }}>thumb_up</span>
-                                            <span>{selectedIssue.supportCount || 0}</span>
-                                        </button>
-                                        <button
-                                            className={`interact-btn ${selectedIssue.userVote === 'down' ? 'active-down' : ''}`}
-                                            onClick={() => useAppStore.getState().voteIssue(selectedIssue.id, 'down')}
-                                        >
-                                            <span className="material-symbols-outlined" style={{ fontVariationSettings: selectedIssue.userVote === 'down' ? "'FILL' 1" : "''" }}>thumb_down</span>
-                                        </button>
-                                        <button className="interact-btn">
-                                            <span className="material-symbols-outlined">chat_bubble</span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="sheet-actions">
-                                    <button
-                                        className="primary-btn view-details-btn"
-                                        onClick={() => {
-                                            setSelectedIssueId(selectedIssue.id);
-                                            navigate('full-issue-details');
-                                        }}
-                                    >
-                                        View Details <span className="material-symbols-outlined">arrow_forward</span>
-                                    </button>
-                                </div>
-                            </>
+                            <div className="sheet-actions">
+                                <button
+                                    className="primary-btn view-details-btn"
+                                    onClick={() => {
+                                        setSelectedIssueId(selectedIssue.id);
+                                        navigate('full-issue-details');
+                                    }}
+                                >
+                                    View Details <span className="material-symbols-outlined">arrow_forward</span>
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
