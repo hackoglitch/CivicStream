@@ -18,8 +18,10 @@ export const UnifiedIssueDetailsModal = ({ taskId, onClose }) => {
 
     const [rejectReason, setRejectReason] = useState('');
     const [showRejectForm, setShowRejectForm] = useState(false);
-    const [selectedWorkerId, setSelectedWorkerId] = useState('');
-    const [selectedPriority, setSelectedPriority] = useState('normal');
+    const selectedWorkerId = useAppStore(state => state.officialSelectedWorkerAssignmentId);
+    const setSelectedWorkerId = useAppStore(state => state.setOfficialSelectedWorkerAssignmentId);
+    const selectedPriority = useAppStore(state => state.officialSelectedPriority);
+    const setSelectedPriority = useAppStore(state => state.setOfficialSelectedPriority);
     const [loading, setLoading] = useState(false);
 
     // Find from shared issues array

@@ -927,8 +927,10 @@ const WorkerProfileView = () => {
     const navigate = useAppStore(state => state.navigate);
     const unreadCount = useNotificationStore(state => state.unreadCount);
 
-    const [workerStatus, setWorkerStatus] = useState('Available'); // 'Available', 'Busy', 'Offline'
-    const [isEditing, setIsEditing] = useState(false);
+    const workerStatus = useAppStore(state => state.workerStatus);
+    const setWorkerStatus = useAppStore(state => state.setWorkerStatus);
+    const isEditing = useAppStore(state => state.isWorkerEditingProfile);
+    const setIsEditing = useAppStore(state => state.setIsWorkerEditingProfile);
     const [tempProfile, setTempProfile] = useState({
         name: currentUser?.name || 'Ravi Sharma',
         phone: currentUser?.phone || '+91 98765 43210',

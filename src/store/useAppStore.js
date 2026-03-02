@@ -250,6 +250,28 @@ const useAppStore = create((set, get) => ({
     setSelectedTaskSessionId: (id) => set({ selectedTaskSessionId: id }),
     setTaskSessionViewMode: (mode) => set({ taskSessionViewMode: mode }),
 
+    // ── Official Navigation State ───────────────────────────────────────────
+    officialActiveTab: 'Control',
+    officialCurrentView: 'dashboard',
+    officialSelectedTaskId: null,
+    officialSelectedWorkerProfileId: null,
+
+    setOfficialActiveTab: (tab) => set({ officialActiveTab: tab }),
+    setOfficialCurrentView: (view) => set({ officialCurrentView: view }),
+    setOfficialSelectedTaskId: (id) => set({ officialSelectedTaskId: id }),
+    setOfficialSelectedWorkerProfileId: (id) => set({ officialSelectedWorkerProfileId: id }),
+
+    officialSelectedWorkerAssignmentId: '',
+    officialSelectedPriority: 'normal',
+    setOfficialSelectedWorkerAssignmentId: (id) => set({ officialSelectedWorkerAssignmentId: id }),
+    setOfficialSelectedPriority: (priority) => set({ officialSelectedPriority: priority }),
+
+    // ── Worker UI Sync State ───────────────────────────────────────────────
+    workerStatus: 'Available',
+    isWorkerEditingProfile: false,
+    setWorkerStatus: (status) => set({ workerStatus: status }),
+    setIsWorkerEditingProfile: (val) => set({ isWorkerEditingProfile: val }),
+
     // Worker: Start Task (assigned → in_progress)
     workerStartTask: async (complaintId) => {
         const state = get();

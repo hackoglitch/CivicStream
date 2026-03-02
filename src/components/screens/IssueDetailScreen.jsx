@@ -163,7 +163,7 @@ const IssueDetailScreen = ({ variant = 'mobile', isTabPage = false }) => {
                 />
             </div>
 
-            {selectedIssue && (
+            {selectedIssue && !isTabPage && (
                 <div className={`bottom-sheet ${isSheetOpen ? 'open' : ''}`}>
                     <div className="sheet-handle" onClick={() => setIsSheetOpen(!isSheetOpen)} />
 
@@ -211,17 +211,19 @@ const IssueDetailScreen = ({ variant = 'mobile', isTabPage = false }) => {
                                     </div>
                                 </div>
 
-                                <div className="sheet-actions">
-                                    <button
-                                        className="primary-btn view-details-btn"
-                                        onClick={() => {
-                                            setSelectedIssueId(selectedIssue.id);
-                                            navigate('full-issue-details');
-                                        }}
-                                    >
-                                        View Details <span className="material-symbols-outlined">arrow_forward</span>
-                                    </button>
-                                </div>
+                                {!isTabPage && (
+                                    <div className="sheet-actions">
+                                        <button
+                                            className="primary-btn view-details-btn"
+                                            onClick={() => {
+                                                setSelectedIssueId(selectedIssue.id);
+                                                navigate('full-issue-details');
+                                            }}
+                                        >
+                                            View Details <span className="material-symbols-outlined">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>

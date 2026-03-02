@@ -14,11 +14,15 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
     const fetchAppData = useAppStore(state => state.fetchAppData);
     const setSelectedIssueId = useAppStore(state => state.setSelectedIssueId);
 
-    // Core Navigation State
-    const [activeTab, setActiveTab] = useState('Control');
-    const [currentView, setCurrentView] = useState('dashboard');
-    const [selectedTaskId, setSelectedTaskId] = useState(null);
-    const [selectedWorkerProfile, setSelectedWorkerProfile] = useState(null);
+    // Core Navigation State (Global via Store for Dual-View Sync)
+    const activeTab = useAppStore(state => state.officialActiveTab);
+    const setActiveTab = useAppStore(state => state.setOfficialActiveTab);
+    const currentView = useAppStore(state => state.officialCurrentView);
+    const setCurrentView = useAppStore(state => state.setOfficialCurrentView);
+    const selectedTaskId = useAppStore(state => state.officialSelectedTaskId);
+    const setSelectedTaskId = useAppStore(state => state.setOfficialSelectedTaskId);
+    const selectedWorkerProfile = useAppStore(state => state.officialSelectedWorkerProfileId);
+    const setSelectedWorkerProfile = useAppStore(state => state.setOfficialSelectedWorkerProfileId);
     const unreadCount = useNotificationStore(state => state.unreadCount);
     const navigate = useAppStore(state => state.navigate);
 
