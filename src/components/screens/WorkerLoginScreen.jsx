@@ -24,15 +24,20 @@ const WorkerLoginScreen = ({ variant = 'mobile' }) => {
         navigate('role-selection');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = login(email, password);
-        if (res.success) {
+        const res = await login(email, password);
+        if (res && res.success) {
             setWorkerDashboardTab('HOME');
             navigate('worker-dashboard');
         } else {
             alert('Invalid credentials');
         }
+    };
+
+    const handleWorkerSwitch = (num) => {
+        setEmail(`worker${num}@test.com`);
+        setPassword('123456');
     };
 
     const handleOfficialLogin = () => {
@@ -60,6 +65,17 @@ const WorkerLoginScreen = ({ variant = 'mobile' }) => {
 
             {/* Login Card */}
             <div className="login-card">
+                <style>{`
+                    .worker-selection { display: flex; gap: 8px; margin-bottom: 20px; }
+                    .worker-chip { flex: 1; padding: 10px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: #f8fafc; cursor: pointer; transition: all 0.2s; font-size: 13px; font-weight: 600; text-align: center; }
+                    .worker-chip.active { border-color: #3b82f6; background: #eff6ff; color: #3b82f6; }
+                `}</style>
+
+                <div className="worker-selection">
+                    <div className={`worker-chip ${email === 'worker1@test.com' ? 'active' : ''}`} onClick={() => handleWorkerSwitch(1)}>Worker 1</div>
+                    <div className={`worker-chip ${email === 'worker2@test.com' ? 'active' : ''}`} onClick={() => handleWorkerSwitch(2)}>Worker 2</div>
+                </div>
+
                 <form className="login-form" onSubmit={handleSubmit}>
                     <div className="input-group">
                         <label className="input-label-login" htmlFor="workerId">Email / Mobile</label>
@@ -100,6 +116,7 @@ const WorkerLoginScreen = ({ variant = 'mobile' }) => {
 
             {/* Switch to Official Login */}
             <div className="login-footer-actions">
+                <p style={{ fontSize: '12px', color: '#64748b', marginBottom: '8px' }}>Login as Worker 2 for the second worker flow</p>
                 <button className="official-login-btn" onClick={handleOfficialLogin}>
                     Official Login
                 </button>

@@ -107,7 +107,7 @@ const TaskCard = ({ task, variant = 'home' }) => {
     );
 };
 
-const DashboardHome = ({ userName }) => {
+const DashboardHome = ({ user }) => {
     const workerTasks = useAppStore(state => state.workerTasks);
     const workerCompletedTasks = useAppStore(state => state.workerCompletedTasks || []);
 
@@ -115,14 +115,16 @@ const DashboardHome = ({ userName }) => {
     const inProgressCount = workerTasks.filter(t => t.status === 'in_progress').length;
     const completedCount = workerCompletedTasks.length;
 
+    const userName = user?.name ? user.name.split(' ')[0] : 'Ravi';
+
     return (
         <div className="wd-content-wrapper animate-fade-in">
             <header className="wd-header">
                 <div className="wd-user-profile">
-                    <img alt="Worker Profile" className="wd-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0owyoqzndwEFLgWuZ7_pp-4bCTrAflBC-_m98cfCIuS3x71lRG0HuuS-zHCNDBpyB8p7QKnKsQ0pmztiZbAMSLfBCJt7SqaQT-t18secHF8sFYVgHepiZZ4d9d7TUwzQSCJJ2HDLXFkykzRQ-iw03qnegScGncHO0kCjBnpGA1HnlQ2KCZlSajSfH59TSsQhq9l-DPqawrDTwJvxERVRQieuiNL4uFcPCfM1Z6joWjiis5XVf7eVLw6Gzt6uBhT4UWtFxCjuEOg" />
+                    <img alt="Worker Profile" className="wd-avatar" src={user?.profileImage || 'https://i.pravatar.cc/150'} />
                     <div className="wd-user-info">
                         <h1 className="wd-greeting">Good Morning, {userName}</h1>
-                        <p className="wd-role">Field Worker • ID #4429</p>
+                        <p className="wd-role">Field Worker • ID {user?.id?.toUpperCase() || '#4429'}</p>
                     </div>
                 </div>
                 <div className="wd-status">
@@ -708,13 +710,17 @@ const MyTasksView = () => {
 const WorkerPerformanceView = () => {
     const navigate = useAppStore(state => state.navigate);
     const unreadCount = useNotificationStore(state => state.unreadCount);
+    const user = useAppStore(state => state.currentUser);
+    const perf = useAppStore(state => state.getWorkerPerformance());
+
+    if (!perf) return null;
 
     return (
         <div className="perf-container animate-fade-in">
             {/* Header */}
             <div className="perf-header">
                 <div className="perf-profile-pic">
-                    <img src="https://i.pravatar.cc/150?img=11" alt="Profile" />
+                    <img src={user?.profileImage || 'https://i.pravatar.cc/150'} alt="Profile" />
                 </div>
                 <h1 className="perf-title">My Performance</h1>
                 <button className="perf-bell-btn" onClick={() => navigate('notifications')} style={{ position: 'relative' }}>
@@ -731,40 +737,46 @@ const WorkerPerformanceView = () => {
                             <div className="perf-stat-icon blue">
                                 <span className="material-symbols-outlined">check_circle</span>
                             </div>
-                            <span className="perf-stat-change positive">+4</span>
+                            <span className={`perf-stat-change ${perf.weekChange.startsWith('+') ? 'positive' : 'negative'}`}>
+                                {perf.weekChange}
+                            </span>
                         </div>
                         <p className="perf-stat-label">Tasks (Week)</p>
-                        <h2 className="perf-stat-value">18</h2>
+                        <h2 className="perf-stat-value">{perf.weekTasks}</h2>
                     </div>
                     <div className="perf-stat-card">
                         <div className="perf-stat-top">
                             <div className="perf-stat-icon purple">
                                 <span className="material-symbols-outlined">calendar_month</span>
                             </div>
-                            <span className="perf-stat-change positive">+10%</span>
+                            <span className={`perf-stat-change ${perf.monthChange.startsWith('+') ? 'positive' : 'negative'}`}>
+                                {perf.monthChange}
+                            </span>
                         </div>
                         <p className="perf-stat-label">Tasks (Month)</p>
-                        <h2 className="perf-stat-value">72</h2>
+                        <h2 className="perf-stat-value">{perf.monthTasks}</h2>
                     </div>
                     <div className="perf-stat-card">
                         <div className="perf-stat-top">
                             <div className="perf-stat-icon orange">
                                 <span className="material-symbols-outlined">timer</span>
                             </div>
-                            <span className="perf-stat-change positive">-0.5d</span>
+                            <span className="perf-stat-change positive">{perf.resChange}</span>
                         </div>
                         <p className="perf-stat-label">Avg Resolution</p>
-                        <h2 className="perf-stat-value">2.3 <span className="perf-val-unit">Days</span></h2>
+                        <h2 className="perf-stat-value">{perf.avgResTime} <span className="perf-val-unit">Days</span></h2>
                     </div>
                     <div className="perf-stat-card">
                         <div className="perf-stat-top">
                             <div className="perf-stat-icon red">
                                 <span className="material-symbols-outlined">priority_high</span>
                             </div>
-                            <span className="perf-stat-change negative">-1</span>
+                            <span className={`perf-stat-change ${perf.escChange.startsWith('-') ? 'positive' : 'negative'}`}>
+                                {perf.escChange}
+                            </span>
                         </div>
                         <p className="perf-stat-label">Escalations</p>
-                        <h2 className="perf-stat-value">3</h2>
+                        <h2 className="perf-stat-value">{perf.escalations}</h2>
                     </div>
                 </div>
 
@@ -773,9 +785,7 @@ const WorkerPerformanceView = () => {
                     <div className="perf-banner-icon">
                         <span className="material-symbols-outlined">auto_awesome</span>
                     </div>
-                    <p className="perf-banner-text">
-                        You are resolving issues <span className="highlight">15% faster</span> than the department average. Keep it up!
-                    </p>
+                    <p className="perf-banner-text" dangerouslySetInnerHTML={{ __html: perf.insight }} />
                 </div>
 
                 {/* Weekly Task Completion Chart */}
@@ -787,12 +797,11 @@ const WorkerPerformanceView = () => {
                         </div>
                         <div className="perf-card-right">
                             <span className="perf-best-day-label">BEST DAY</span>
-                            <span className="perf-best-day-value">Wednesday</span>
+                            <span className="perf-best-day-value">{perf.bestDay}</span>
                         </div>
                     </div>
 
                     <div className="perf-chart-wrapper">
-                        {/* Mock SVG Chart replacing an actual chart library for identical visuals */}
                         <svg viewBox="0 0 400 120" className="perf-chart-svg" preserveAspectRatio="none">
                             <defs>
                                 <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
@@ -800,22 +809,13 @@ const WorkerPerformanceView = () => {
                                     <stop offset="100%" stopColor="rgba(59, 130, 246, 0)" />
                                 </linearGradient>
                             </defs>
-                            <path
-                                d="M 0 100 Q 20 100 30 70 Q 50 10 70 20 Q 90 45 120 45 Q 150 45 170 80 Q 190 50 220 50 Q 250 50 280 100 Q 310 100 340 40 Q 360 40 370 70 Q 380 90 400 30 L 400 120 L 0 120 Z"
-                                fill="url(#chartFill)"
-                            />
-                            <path
-                                d="M 0 100 Q 20 100 30 70 Q 50 10 70 20 Q 90 45 120 45 Q 150 45 170 80 Q 190 50 220 50 Q 250 50 280 100 Q 310 100 340 40 Q 360 40 370 70 Q 380 90 400 30"
-                                fill="none"
-                                stroke="#3b82f6"
-                                strokeWidth="3"
-                                strokeLinecap="round"
-                            />
+                            <path d={perf.chartFill} fill="url(#chartFill)" />
+                            <path d={perf.chartPath} fill="none" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
                         </svg>
                         <div className="perf-x-axis">
                             <span>M</span>
                             <span>T</span>
-                            <span className="active">W</span>
+                            <span className={perf.bestDay === 'Wednesday' ? 'active' : ''}>W</span>
                             <span>T</span>
                             <span>F</span>
                             <span>S</span>
@@ -828,45 +828,17 @@ const WorkerPerformanceView = () => {
                 <div className="perf-card">
                     <h3 className="perf-card-title mb-large">Resolution Distribution</h3>
 
-                    <div className="perf-bar-group">
-                        <div className="perf-bar-labels">
-                            <span className="perf-bar-label">Under 24h</span>
-                            <span className="perf-bar-value">42 cases</span>
+                    {perf.distribution.map((item, idx) => (
+                        <div key={idx} className="perf-bar-group">
+                            <div className="perf-bar-labels">
+                                <span className="perf-bar-label">{item.label}</span>
+                                <span className="perf-bar-value">{item.value}</span>
+                            </div>
+                            <div className="perf-bar-track">
+                                <div className={`perf-bar-fill ${item.color}`} style={{ width: item.width }}></div>
+                            </div>
                         </div>
-                        <div className="perf-bar-track">
-                            <div className="perf-bar-fill green" style={{ width: '65%' }}></div>
-                        </div>
-                    </div>
-
-                    <div className="perf-bar-group">
-                        <div className="perf-bar-labels">
-                            <span className="perf-bar-label">1 - 3 Days</span>
-                            <span className="perf-bar-value">21 cases</span>
-                        </div>
-                        <div className="perf-bar-track">
-                            <div className="perf-bar-fill blue" style={{ width: '35%' }}></div>
-                        </div>
-                    </div>
-
-                    <div className="perf-bar-group">
-                        <div className="perf-bar-labels">
-                            <span className="perf-bar-label">3 - 7 Days</span>
-                            <span className="perf-bar-value">6 cases</span>
-                        </div>
-                        <div className="perf-bar-track">
-                            <div className="perf-bar-fill orange" style={{ width: '15%' }}></div>
-                        </div>
-                    </div>
-
-                    <div className="perf-bar-group">
-                        <div className="perf-bar-labels">
-                            <span className="perf-bar-label">Over 7 Days</span>
-                            <span className="perf-bar-value">3 cases</span>
-                        </div>
-                        <div className="perf-bar-track">
-                            <div className="perf-bar-fill red" style={{ width: '8%' }}></div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
 
                 {/* Escalation Records */}
@@ -889,27 +861,15 @@ const WorkerPerformanceView = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="perf-id-col">#4492</td>
-                                    <td>Road Hazard</td>
-                                    <td className="text-right">
-                                        <span className="perf-badge pending">Pending Review</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="perf-id-col">#3821</td>
-                                    <td>Sanitation</td>
-                                    <td className="text-right">
-                                        <span className="perf-badge escalated">Escalated</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="perf-id-col">#2109</td>
-                                    <td>Public Lighting</td>
-                                    <td className="text-right">
-                                        <span className="perf-badge resolved">Resolved</span>
-                                    </td>
-                                </tr>
+                                {perf.records.map((rec, idx) => (
+                                    <tr key={idx}>
+                                        <td className="perf-id-col">{rec.id}</td>
+                                        <td>{rec.category}</td>
+                                        <td className="text-right">
+                                            <span className={`perf-badge ${rec.statusType}`}>{rec.status}</span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
@@ -934,7 +894,8 @@ const WorkerProfileView = () => {
     const [tempProfile, setTempProfile] = useState({
         name: currentUser?.name || 'Ravi Sharma',
         phone: currentUser?.phone || '+91 98765 43210',
-        email: currentUser?.email || 'ravi.sharma@municipality.gov'
+        email: currentUser?.email || 'ravi.sharma@municipality.gov',
+        profileImage: currentUser?.profileImage || 'https://i.pravatar.cc/150'
     });
 
     // Sync tempProfile when entering editing mode
@@ -943,7 +904,8 @@ const WorkerProfileView = () => {
             setTempProfile({
                 name: currentUser?.name || 'Ravi Sharma',
                 phone: currentUser?.phone || '+91 98765 43210',
-                email: currentUser?.email || 'ravi.sharma@municipality.gov'
+                email: currentUser?.email || 'ravi.sharma@municipality.gov',
+                profileImage: currentUser?.profileImage || 'https://i.pravatar.cc/150'
             });
         }
     }, [isEditing, currentUser]);
@@ -955,9 +917,17 @@ const WorkerProfileView = () => {
         updateUser({
             name: tempProfile.name,
             email: tempProfile.email,
-            phone: tempProfile.phone
+            phone: tempProfile.phone,
+            profileImage: tempProfile.profileImage
         });
         setIsEditing(false);
+    };
+
+    const handleAvatarChange = () => {
+        const url = prompt("Enter new image URL:");
+        if (url) {
+            setTempProfile(prev => ({ ...prev, profileImage: url }));
+        }
     };
 
     const handlePasswordChange = () => {
@@ -997,8 +967,16 @@ const WorkerProfileView = () => {
                 {/* Profile Card */}
                 <div className="prof-card">
                     <div className="prof-avatar-wrapper">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0owyoqzndwEFLgWuZ7_pp-4bCTrAflBC-_m98cfCIuS3x71lRG0HuuS-zHCNDBpyB8p7QKnKsQ0pmztiZbAMSLfBCJt7SqaQT-t18secHF8sFYVgHepiZZ4d9d7TUwzQSCJJ2HDLXFkykzRQ-iw03qnegScGncHO0kCjBnpGA1HnlQ2KCZlSajSfH59TSsQhq9l-DPqawrDTwJvxERVRQieuiNL4uFcPCfM1Z6joWjiis5XVf7eVLw6Gzt6uBhT4UWtFxCjuEOg" alt="Profile" className="prof-avatar" />
-                        <span className={`prof-status-dot ${getStatusColor()}`}></span>
+                        <img src={isEditing ? tempProfile.profileImage : (currentUser?.profileImage || 'https://i.pravatar.cc/150')} alt="Profile" className="prof-avatar" />
+                        {!isEditing && <span className={`prof-status-dot ${getStatusColor()}`}></span>}
+                        {isEditing && (
+                            <button
+                                onClick={handleAvatarChange}
+                                style={{ position: 'absolute', bottom: 0, right: 0, background: '#3b82f6', color: 'white', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
+                            >
+                                <span className="material-symbols-outlined" style={{ fontSize: 18 }}>photo_camera</span>
+                            </button>
+                        )}
                     </div>
 
                     {isEditing ? (
@@ -1037,7 +1015,7 @@ const WorkerProfileView = () => {
                         <>
                             <h2 className="prof-name">{currentUser?.name || tempProfile.name}</h2>
                             <p className="prof-dept">Public Works Department</p>
-                            <p className="prof-worker-id">Worker ID: MW-7829</p>
+                            <p className="prof-worker-id">Worker ID: {currentUser?.id?.toUpperCase() || 'MW-7829'}</p>
 
                             <div className="prof-contact-info">
                                 <span className="material-symbols-outlined">mail</span>
@@ -1151,12 +1129,10 @@ const WorkerDashboardScreen = ({ variant = 'mobile' }) => {
         fetchAppData();
     }, []);
 
-    const userName = user?.name ? user.name.split(' ')[0] : 'Ravi';
-
     return (
         <div className={`worker-dashboard-container ${!isMobile ? 'worker-dashboard-desktop' : ''}`}>
 
-            {activeTab === 'HOME' && <DashboardHome userName={userName} />}
+            {activeTab === 'HOME' && <DashboardHome user={user} />}
             {activeTab === 'TASKS' && <MyTasksView />}
             {activeTab === 'PERFORMANCE' && <WorkerPerformanceView />}
             {activeTab === 'PROFILE' && <WorkerProfileView />}

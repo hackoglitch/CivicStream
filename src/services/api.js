@@ -33,15 +33,32 @@ export const api = {
         // Map to a real seeded user
         const roleUserMap = {
             citizen: 'user_123',
-            worker: 'worker_01',
+            worker: email.includes('2') ? 'worker_02' : 'worker_01',
             official: 'off_01'
         };
 
+        const names = {
+            worker_01: 'Ravi S.',
+            worker_02: 'David Miller',
+            off_01: 'Officer Rajesh',
+            user_123: 'Alex Johnson'
+        };
+
+        const images = {
+            worker_01: 'https://i.pravatar.cc/150?u=ravi',
+            worker_02: 'https://i.pravatar.cc/150?u=david',
+            off_01: 'https://i.pravatar.cc/150?u=rajesh',
+            user_123: '/assets/profile_alex.png'
+        };
+
+        const userId = roleUserMap[role];
+
         return {
             success: true,
-            id: roleUserMap[role],
+            id: userId,
             role,
-            name: email.split('@')[0] || 'User'
+            name: names[userId] || email.split('@')[0] || 'User',
+            profileImage: images[userId] || 'https://i.pravatar.cc/150'
         };
     },
 

@@ -4,6 +4,7 @@ import useNotificationStore from '../../store/useNotificationStore';
 import './OfficialDashboardScreen.css';
 import { TaskListView, UnifiedIssueDetailsModal } from './OfficialViews';
 import IssueDetailScreen from './IssueDetailScreen';
+import OfficialProfileScreen from './OfficialProfileScreen';
 
 const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
     const isMobile = variant === 'mobile';
@@ -56,17 +57,13 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
 
     const renderNavItems = () => (
         <>
-            <button className={`od-nav-item ${activeTab === 'Control' ? 'active' : ''}`} onClick={() => setActiveTab('Control')}>
+            <button className={`od-nav-item ${activeTab === 'Control' ? 'active' : ''}`} onClick={() => { setActiveTab('Control'); setCurrentView('dashboard'); }}>
                 <span className="material-symbols-outlined">grid_view</span>
-                <span className="od-nav-label">Control</span>
+                <span className="od-nav-label">Dashboard</span>
             </button>
             <button className={`od-nav-item ${activeTab === 'Metrics' ? 'active' : ''}`} onClick={() => setActiveTab('Metrics')}>
                 <span className="material-symbols-outlined">query_stats</span>
                 <span className="od-nav-label">Metrics</span>
-            </button>
-            <button className={`od-nav-item ${activeTab === 'Workers' ? 'active' : ''}`} onClick={() => setActiveTab('Workers')}>
-                <span className="material-symbols-outlined">group</span>
-                <span className="od-nav-label">Workers</span>
             </button>
             <button className={`od-nav-item ${activeTab === 'Live Map' ? 'active' : ''}`} onClick={() => setActiveTab('Live Map')}>
                 <span className="material-symbols-outlined">map</span>
@@ -75,6 +72,10 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
             <button className={`od-nav-item ${activeTab === 'Config' ? 'active' : ''}`} onClick={() => setActiveTab('Config')}>
                 <span className="material-symbols-outlined">settings</span>
                 <span className="od-nav-label">Config</span>
+            </button>
+            <button className={`od-nav-item ${activeTab === 'Profile' ? 'active' : ''}`} onClick={() => setActiveTab('Profile')}>
+                <span className="material-symbols-outlined">person</span>
+                <span className="od-nav-label">Profile</span>
             </button>
         </>
     );
@@ -97,7 +98,7 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
     );
 
     const renderDashboard = () => (
-        <div className="od-content-wrapper animate-fade-in">
+        <div className="od-content-wrapper animate-fade-in no-scrollbar">
             <header className="od-header">
                 <div className="od-user-profile">
                     <div className="od-avatar-placeholder">
@@ -114,6 +115,9 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
                         {unreadCount > 0 && <span className="unread-badge-wd" style={{ top: 8, right: 8 }}>{unreadCount}</span>}
                     </button>
                     <button className="od-status" title="Logout" onClick={logout}>
+                        <span className="material-symbols-outlined od-status-icon">logout</span>
+                    </button>
+                    <button className="od-status" title="Profile" onClick={() => setActiveTab('Profile')} style={{ padding: 0, border: 'none', background: 'none' }}>
                         <img src={user?.profileImage || "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"} alt="Profile" className="od-profile-avatar" />
                     </button>
                 </div>
@@ -319,7 +323,11 @@ const OfficialDashboardScreen = ({ variant = 'mobile' }) => {
                 </div>
             )}
 
-            {!selectedWorkerProfile && !selectedTaskId && activeTab !== 'Control' && activeTab !== 'Live Map' && renderUnderDevelopment(activeTab)}
+            {!selectedWorkerProfile && !selectedTaskId && activeTab === 'Profile' && (
+                <OfficialProfileScreen onBack={() => setActiveTab('Control')} />
+            )}
+
+            {!selectedWorkerProfile && !selectedTaskId && activeTab !== 'Control' && activeTab !== 'Live Map' && activeTab !== 'Profile' && renderUnderDevelopment(activeTab)}
 
             {/* ── Monitoring Views (filter from shared issues array) ─── */}
             {!selectedWorkerProfile && !selectedTaskId && currentView === 'master_registry' && (

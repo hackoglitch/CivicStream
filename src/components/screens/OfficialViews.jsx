@@ -71,7 +71,7 @@ export const UnifiedIssueDetailsModal = ({ taskId, onClose }) => {
     }[task.status] || task.status;
 
     return (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#f7f9fa', overflowY: 'auto' }} className="animate-fade-in">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#f7f9fa', overflowY: 'auto' }} className="animate-fade-in no-scrollbar">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px', position: 'sticky', top: 0, background: '#f7f9fa', zIndex: 10, borderBottom: '1px solid #e2e8f0' }}>
                 <button onClick={onClose} style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 0 }}>
                     <span className="material-symbols-outlined" style={{ fontSize: 28 }}>arrow_back</span>
@@ -234,7 +234,7 @@ export const TaskListView = ({ title, filterFn, onOpenTask, onBack }) => {
     }[status] || status);
 
     return (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#f7f9fa', overflowY: 'auto' }} className="animate-fade-in">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#f7f9fa', overflowY: 'auto' }} className="animate-fade-in no-scrollbar">
             <div className="od-header" style={{ position: 'sticky', top: 0, background: '#f7f9fa', zIndex: 10 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <button onClick={onBack} style={{ border: 'none', background: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>

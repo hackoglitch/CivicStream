@@ -44,6 +44,52 @@ function categoryIcon(category) {
     return icons[category] || 'build';
 }
 
+// ─── PERFORMANCE MOCK DATA ──────────────────────────────────────────────────
+const WORKER_PERF_DATA = {
+    worker_01: {
+        weekTasks: 18, weekChange: '+4',
+        monthTasks: 72, monthChange: '+10%',
+        avgResTime: '2.3', resChange: '-0.5d',
+        escalations: 3, escChange: '-1',
+        chartPath: "M 0 100 Q 20 100 30 70 Q 50 10 70 20 Q 90 45 120 45 Q 150 45 170 80 Q 190 50 220 50 Q 250 50 280 100 Q 310 100 340 40 Q 360 40 370 70 Q 380 90 400 30",
+        chartFill: "M 0 100 Q 20 100 30 70 Q 50 10 70 20 Q 90 45 120 45 Q 150 45 170 80 Q 190 50 220 50 Q 250 50 280 100 Q 310 100 340 40 Q 360 40 370 70 Q 380 90 400 30 L 400 120 L 0 120 Z",
+        distribution: [
+            { label: 'Under 24h', value: '42 cases', width: '65%', color: 'green' },
+            { label: '1 - 3 Days', value: '21 cases', width: '35%', color: 'blue' },
+            { label: '3 - 7 Days', value: '6 cases', width: '15%', color: 'orange' },
+            { label: 'Over 7 Days', value: '3 cases', width: '8%', color: 'red' },
+        ],
+        records: [
+            { id: '#4492', category: 'Road Hazard', status: 'Pending Review', statusType: 'pending' },
+            { id: '#3821', category: 'Sanitation', status: 'Escalated', statusType: 'escalated' },
+            { id: '#2109', category: 'Public Lighting', status: 'Resolved', statusType: 'resolved' },
+        ],
+        bestDay: 'Wednesday',
+        insight: 'You are resolving issues <span class="highlight">15% faster</span> than the department average.'
+    },
+    worker_02: {
+        weekTasks: 12, weekChange: '+2',
+        monthTasks: 58, monthChange: '+5%',
+        avgResTime: '3.1', resChange: '-0.2d',
+        escalations: 5, escChange: '+1',
+        chartPath: "M0 80 Q 40 80 60 90 Q 80 100 120 70 Q 150 20 180 50 Q 220 80 250 40 Q 300 30 350 90 Q 380 95 400 60",
+        chartFill: "M0 80 Q 40 80 60 90 Q 80 100 120 70 Q 150 20 180 50 Q 220 80 250 40 Q 300 30 350 90 Q 380 95 400 60 L 400 120 L 0 120 Z",
+        distribution: [
+            { label: 'Under 24h', value: '15 cases', width: '30%', color: 'green' },
+            { label: '1 - 3 Days', value: '32 cases', width: '60%', color: 'blue' },
+            { label: '3 - 7 Days', value: '12 cases', width: '25%', color: 'orange' },
+            { label: 'Over 7 Days', value: '4 cases', width: '10%', color: 'red' },
+        ],
+        records: [
+            { id: '#1003', category: 'Electricity', status: 'Resolved', statusType: 'resolved' },
+            { id: '#ISSUE1005', category: 'Road Crack', status: 'Pending Review', statusType: 'pending' },
+            { id: '#ISSUE1004', category: 'Pipe Burst', status: 'In Progress', statusType: 'resovled' },
+        ],
+        bestDay: 'Monday',
+        insight: 'Your <span class="highlight">first-time fix rate</span> is exceptional this month. Great job!'
+    }
+};
+
 // ─── STORE ─────────────────────────────────────────────────────────────────────
 const useAppStore = create((set, get) => ({
     // ── Navigation ──────────────────────────────────────────────────────────
@@ -67,7 +113,7 @@ const useAppStore = create((set, get) => ({
         try {
             const data = await api.login(email, password);
             if (data.success) {
-                const user = { id: data.id, role: data.role, email, name: data.name };
+                const user = { id: data.id, role: data.role, email, name: data.name, profileImage: data.profileImage };
                 set({ isAuthenticated: true, currentUser: user });
                 // Sync the legacy 'user' object to match current user
                 set((state) => ({
@@ -249,6 +295,12 @@ const useAppStore = create((set, get) => ({
     setShowWorkerUpdateStatus: (val) => set({ showWorkerUpdateStatus: val }),
     setSelectedTaskSessionId: (id) => set({ selectedTaskSessionId: id }),
     setTaskSessionViewMode: (mode) => set({ taskSessionViewMode: mode }),
+
+    getWorkerPerformance: () => {
+        const user = get().currentUser || get().user;
+        if (!user || user.role !== 'worker') return null;
+        return WORKER_PERF_DATA[user.id] || WORKER_PERF_DATA['worker_01'];
+    },
 
     // ── Official Navigation State ───────────────────────────────────────────
     officialActiveTab: 'Control',

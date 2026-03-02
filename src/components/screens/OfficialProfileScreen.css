@@ -1,0 +1,576 @@
+.official-profile-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f1f5f9;
+    overflow-y: auto;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    padding-bottom: 40px;
+    /* Space for bottom nav */
+    scrollbar-width: none;
+    /* Hide for Firefox */
+    -ms-overflow-style: none;
+    /* Hide for IE/Edge */
+}
+
+.official-profile-container::-webkit-scrollbar {
+    display: none;
+    /* Hide for Chrome, Safari, and Opera */
+}
+
+/* Header */
+.ops-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: transparent;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.ops-header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.ops-icon-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1e293b;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ops-icon-btn:active {
+    background: #f1f5f9;
+}
+
+.ops-centered-content {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.ops-hero-card {
+    background: white; border: 1px solid #e2e8f0;
+    margin: 0 20px 24px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* Profile Hero */
+.ops-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px;
+    text-align: center;
+}
+
+.ops-avatar-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.ops-main-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ops-status-dot {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    background-color: #22c55e;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+.ops-name-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.ops-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.ops-official-badge {
+    background: #eff6ff;
+    color: #3b82f6;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.ops-dept {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.ops-id-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 24px;
+}
+
+.ops-contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.ops-contact-row .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.ops-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s;
+    width: 220px;
+}
+
+.ops-edit-btn:active {
+    transform: scale(0.98);
+    background-color: #1d4ed8;
+}
+
+.ops-edit-btn.saving {
+    background-color: #10b981;
+}
+
+/* Sections */
+.ops-section {
+    padding: 0 20px;
+    margin-bottom: 28px;
+}
+
+.ops-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.ops-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.ops-section-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+/* Metrics Grid */
+.ops-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.ops-metric-card {
+    background: white; border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f1f5f9;
+}
+
+.ops-metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.ops-metric-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ops-metric-icon.blue {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.ops-metric-icon.green {
+    background: #ecfdf5;
+    color: #10b981;
+}
+
+.ops-metric-icon.orange {
+    background: #fff7ed;
+    color: #f97316;
+}
+
+.ops-metric-icon.purple {
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.ops-metric-trend {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.ops-trend-up {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.ops-trend-down {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.ops-trend-neutral {
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.ops-metric-label {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.ops-metric-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+/* Workload Row */
+.ops-workload-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+}
+
+.ops-workload-row::-webkit-scrollbar {
+    display: none;
+}
+
+.ops-workload-card {
+    flex: 1;
+    min-width: 80px;
+    background: white; border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 12px 8px;
+    text-align: center;
+    border: 1px solid #f1f5f9;
+}
+
+.ops-workload-card.yellow {
+    background: #fefce8;
+    border-color: #fef08a;
+}
+
+.ops-workload-card.blue {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+}
+
+.ops-workload-card.green {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.ops-workload-card.red {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.ops-workload-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.ops-workload-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* Activity List */
+.ops-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ops-activity-item {
+    display: flex;
+    gap: 16px;
+}
+
+.ops-activity-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ops-indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 4px;
+}
+
+.ops-indicator-line {
+    width: 1px;
+    flex: 1;
+    background: #e2e8f0;
+    margin: 4px 0;
+}
+
+.ops-activity-content {
+    flex: 1;
+}
+
+.ops-activity-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.ops-activity-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.ops-activity-time {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.ops-activity-desc {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* Settings List */
+.ops-card {
+    background: white; border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 4px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f1f5f9;
+}
+
+.ops-setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.ops-setting-item:last-child {
+    border-bottom: none;
+}
+
+.ops-setting-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ops-setting-icon {
+    color: #64748b;
+    font-size: 22px;
+}
+
+.ops-setting-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Switch Styling */
+.ops-switch {
+    width: 44px;
+    height: 24px;
+    background: #e2e8f0;
+    border-radius: 12px;
+    padding: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.ops-switch.active {
+    background: #2563eb;
+}
+
+.ops-switch-knob {
+    width: 20px;
+    height: 20px;
+    background: white; border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ops-switch.active .ops-switch-knob {
+    transform: translateX(20px);
+}
+
+/* Edit Form */
+.ops-edit-form {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ops-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ops-input-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ops-input {
+    background: white; border: 1px solid #e2e8f0;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 15px;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.ops-input:focus {
+    border-color: #2563eb;
+}
+
+.ops-edit-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.ops-btn-secondary {
+    flex: 1;
+    background: #f1f5f9;
+    color: #475569;
+    border: none;
+    border-radius: 24px;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ops-btn-primary {
+    flex: 2;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.ops-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: white; border: 1px solid #e2e8f0;
+    color: #ef4444;
+    border: 1.5px solid #fecaca;
+    border-radius: 24px;
+    padding: 12px 32px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.ops-logout-btn:active {
+    background: #fef2f2;
+}
+
+.ops-contact-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.ops-contact-row .material-symbols-outlined {
+    font-size: 18px;
+}
