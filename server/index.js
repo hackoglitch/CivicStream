@@ -552,5 +552,11 @@ app.get('/api/notifications/unread-count', async (req, res) => {
 
 // ─── START ─────────────────────────────────────────────────────────────────────
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+export default app;
+
+// Only start the HTTP server when running directly (not imported as a module)
+import { fileURLToPath } from 'url';
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+}

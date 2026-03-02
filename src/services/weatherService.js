@@ -1,4 +1,4 @@
-const API_KEY = "5a909d4ce1a050e23d068c7d8b0e6edf";
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 const weatherCache = new Map();
 

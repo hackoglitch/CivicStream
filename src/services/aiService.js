@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { fetchWeather } from "./weatherService";
 
-const API_KEY = "AIzaSyBCTX7a5nKt9T305Q3ofO7a9zeTNJv0vBw";
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 /**
